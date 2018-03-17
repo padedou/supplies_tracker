@@ -5,6 +5,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = '__all__'
+    
+    # https://stackoverflow.com/a/38382056
+    def create(self, validated_data):
+        user = models.User.objects.create(**validated_data)
+
+        user.set_password(validated_data['password'])
+        user.save()
+        
+        return user
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
