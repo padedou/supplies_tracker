@@ -12,8 +12,37 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic.edit import UpdateView, DeleteView
 
-from .models import Item, Storage, Space, Items_Storage
+from .models import Item, Storage, Space, Items_Storage, User
 from .forms import ItemForm, StorageForm, SpaceForm, SignUpForm, LoginForm, SpaceDropdownForm
+
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+from .serializers import UserSerializer
+
+
+@csrf_exempt
+def users_list(request):
+    """
+    List the signed up users
+    """
+    if request.method == 'GET':
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+###################################################################################
 
 
 # @login_required
