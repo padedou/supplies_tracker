@@ -20,13 +20,14 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .serializers import UserSerializer
+from .serializers import UserSerializer, SpaceSerializer
 
 
 @csrf_exempt
 def users_list(request):
     """
-    List the signed up users
+    GET: Lists the signed up users.
+    POST: Creates a new user.
     """
     if request.method == 'GET':
         users = User.objects.all()
@@ -39,6 +40,14 @@ def users_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+def spaces(request):
+    if request.method == 'GET':
+        spaces = Space.objects.all()
+        serializer = SpaceSerializer(spaces, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 
 
 

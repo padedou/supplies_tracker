@@ -28,8 +28,8 @@ urlpatterns = [
     url(r'^admin/', include('admin_tools.urls')),
     url(r'^$', views.home, name='home'),
 
-    url(r'items$', views.items_index, name='items_index'),
-    url('items/new', views.items_new, name='items_new'),
+    url(r'^items$', views.items_index, name='items_index'),
+    url(r'^items/new', views.items_new, name='items_new'),
     url(r'^items/(?P<item_id>[0-9]+)/$', views.items_show, name='items_show'),
     url(r'^items/(?P<pk>[0-9]+)/edit$', views.ItemUpdate.as_view(), name='items_update'),
     url(r'^items/(?P<pk>[0-9]+)/delete/$', views.ItemDelete.as_view(), name='items_delete'),
@@ -48,8 +48,8 @@ urlpatterns = [
     url(r'^storages/(?P<pk>[0-9]+)/edit$', views.StorageUpdate.as_view(), name='storages_update'),
     url(r'^storages/(?P<pk>[0-9]+)/delete/$', views.StorageDelete.as_view(), name='storages_delete'),
 
-    url(r'spaces$', views.spaces_index, name='spaces_index'),
-    url('spaces/new', views.spaces_new, name='spaces_new'),
+    url(r'^spaces$', views.spaces_index, name='spaces_index'),
+    url(r'^spaces/new', views.spaces_new, name='spaces_new'),
     url(r'^spaces/(?P<space_id>[0-9]+)/$', views.spaces_show, name='spaces_show'),
     url(r'^spaces/(?P<pk>[0-9]+)/edit$', views.SpaceUpdate.as_view(), name='spaces_update'),
     url(r'^spaces/(?P<pk>[0-9]+)/delete/$', views.SpaceDelete.as_view(), name='spaces_delete'),
@@ -61,6 +61,7 @@ urlpatterns = [
     url(r'^users/edit$', views.UserUpdate.as_view(), name='user_update'),
 
     url(r'^api/users$', views.users_list),
+    url(r'^api/spaces$', views.spaces)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
